@@ -10,15 +10,19 @@ let filename;
 
             case '/':
                 filename = "home.html";
+                res.statusCode = 200;
                 break;
             case '/contact':
-                filename = "contact.html";        
+                filename = "contact.html";
+                res.statusCode = 200;        
                 break;
             case '/about':
                 filename = "about.html";
+                res.statusCode = 200;
                 break; 
             default:
                 filename = "404.html";
+                res.statusCode = 404;
                 break;
         }
 
