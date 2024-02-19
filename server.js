@@ -5,18 +5,35 @@ const fs = require('fs');
 
 const server = http.createServer((req,res)=>{
 
-    res.setHeader('Content-Type','text/html');
-    fs.readFile('./views/home.html',(err,data) => {
-        if(err){
-            console.log(err)
-            res.end();
-        }else {
-            res.write(data);
-            res.end();
+let filename;
+        switch (req.url) {
+
+            case '/':
+                filename = "home.html";
+                break;
+            case '/contact':
+                filename = "contact.html";        
+                break;
+            case '/about':
+                filename = "about.html";
+                break; 
+            default:
+                filename = "404.html";
+                break;
+        }
+
+        res.setHeader('Content-Type','text/html');
+        fs.readFile('./views/'+filename,(err,data) => {
+            if(err){
+                console.log(err)
+                res.end();
+            }else {
+                res.write(data);
+                res.end();
 
         }
+  
     })
-    
 
 })
 
