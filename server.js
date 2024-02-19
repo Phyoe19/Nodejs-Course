@@ -1,6 +1,9 @@
 const http = require('http');
 const fs = require('fs');
+const _ = require('lodash');//_ means lodash package name
 
+
+console.log(_.random(20));
 
 
 const server = http.createServer((req,res)=>{
