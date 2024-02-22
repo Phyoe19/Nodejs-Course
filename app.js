@@ -1,8 +1,20 @@
 const express = require('express');
 let morgan = require('morgan') //package name - morgan
-
+const mongoose = require('mongoose');
 
 const app = express();
+
+//db url
+let mongoUrl = "mongodb+srv://naingwinphyoe:test1234@cluster0.q0gvjex.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+mongoose.connect(mongoUrl).then(() => {
+    console.log('connected to db')
+    app.listen(3000,() => {
+        console.log('app is running on port 3000');
+    })
+}).catch(e => {
+    console.log(e)
+})
+
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -62,6 +74,3 @@ app.use((req,res) => {
     
 });
 
-app.listen(3000,() => {
-    console.log('app is running on port 3000');
-})
