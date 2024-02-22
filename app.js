@@ -1,10 +1,31 @@
 const express = require('express');
+let morgan = require('morgan') //package name - morgan
 
 
 const app = express();
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
+
+//custom middleware fun
+// let logger = (env) => {
+//     return (req,res,next) => {
+//         if(env === 'dev'){
+//             console.log(`${req.method} ${req.originalUrl} --`);
+
+//         }
+        
+//         next();
+//     };
+// }
+
+//call third party middleware
+app.use(morgan('dev'))//this working pretty format response
+app.use(express.static('public'))
+// app.use((req,res,next) => {
+//     console.log(`${req.method} ${req.originalUrl} --`);
+//     next();
+// })
 
 app.get('/',(req,res) => {
 
@@ -27,7 +48,6 @@ app.get('/about',(req,res) => {
         title : "About"  
     });
 });
-
 
 app.get('/contact',(req,res) => {
     res.render('contact',{
