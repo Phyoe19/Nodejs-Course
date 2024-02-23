@@ -1,6 +1,7 @@
 const express = require('express');
 let morgan = require('morgan') //package name - morgan
 const mongoose = require('mongoose');
+const Blog = require('./models/Blog');
 
 const app = express();
 
@@ -34,6 +35,17 @@ app.set('view engine', 'ejs')
 //call third party middleware
 app.use(morgan('dev'))//this working pretty format response
 app.use(express.static('public'))
+
+app.get('/add-blog',async (req,res) => {
+    let blog = new Blog({
+        title : "blog title 2",
+        intro : "blog intro 2",
+        body : "blog body 2"
+    });
+
+    await blog.save();
+    res.send('blog saved');
+})
 // app.use((req,res,next) => {
 //     console.log(`${req.method} ${req.originalUrl} --`);
 //     next();
