@@ -38,28 +38,36 @@ app.use(express.static('public'))
 
 app.get('/add-blog',async (req,res) => {
     let blog = new Blog({
-        title : "blog title 2",
-        intro : "blog intro 2",
-        body : "blog body 2"
+        title : "blog title 3",
+        intro : "blog intro 3",
+        body : "blog body 3"
     });
 
     await blog.save();
     res.send('blog saved');
+})
+
+app.get('/single-blog',async (req,res) => {
+    let blog = await Blog.findById('65db80c86f6b1b8b01ee6f6a');//how to get one blog with id
+    res.json(blog);
 })
 // app.use((req,res,next) => {
 //     console.log(`${req.method} ${req.originalUrl} --`);
 //     next();
 // })
 
-app.get('/',(req,res) => {
+app.get('/',async (req,res) => {
 
 
-    let blogs = [
-        { title : 'Blog title 1', intro : 'this is blog intro 1'},
-        { title : 'Blog title 2', intro : 'this is blog intro 2'},
-        { title : 'Blog title 3', intro : 'this is blog intro 3'},
+    // let blogs = [
+    //     { title : 'Blog title 1', intro : 'this is blog intro 1'},
+    //     { title : 'Blog title 2', intro : 'this is blog intro 2'},
+    //     { title : 'Blog title 3', intro : 'this is blog intro 3'},
 
-    ];
+    // ];
+
+    let blogs = await  Blog.find().sort({createdAt : -1});//order descending
+    console.log(blogs);
 
     res.render('home',{
         blogs,

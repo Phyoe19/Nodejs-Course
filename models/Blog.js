@@ -15,7 +15,7 @@ const BlogSchema = mongoose.Schema({
         required : true  
     },
 
-})
+},{timestamps:true})//blogs create or update can fix value auto
 
 const Blog = mongoose.model('Blog',BlogSchema);//blogs collection
 module.exports = Blog;
