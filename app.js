@@ -6,6 +6,8 @@ const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 
+app.use(express.urlencoded({extended:true}));//form data for pass and then userreq of body submit
+
 //db url
 let mongoUrl = "mongodb+srv://naingwinphyoe:test1234@cluster0.q0gvjex.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(mongoUrl).then(() => {
@@ -76,6 +78,18 @@ app.get('/',async (req,res) => {
         blogs,
         title : "Home"
     })
+});
+//data pass for backends
+app.post('/blogs',async (req,res) => {
+    let {title,intro,body} = req.body;
+    let blog = new Blog({
+        title,
+        intro,
+        body
+    });
+
+    await blog.save();
+    res.redirect('/');
 });
 
 
