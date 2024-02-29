@@ -52,9 +52,13 @@ app.get('/add-blog',async (req,res) => {
     res.send('blog saved');
 });
 
-app.get('/single-blog',async (req,res) => {
-    let blog = await Blog.findById('65db80c86f6b1b8b01ee6f6a');//how to get one blog with id
-    res.json(blog);
+app.get('/blogs/:id',async (req,res) => {
+    let id = req.params.id;
+    let blog = await Blog.findById(id);//how to get one blog with id
+    res.render('blogs/show', {
+        blog,
+        title : "Blog Detail"
+    })
 });
 // app.use((req,res,next) => {
 //     console.log(`${req.method} ${req.originalUrl} --`);
