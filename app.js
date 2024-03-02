@@ -1,8 +1,12 @@
 const express = require('express');
 let morgan = require('morgan') //package name - morgan
 const mongoose = require('mongoose');
-const Blog = require('./models/Blog');
 const expressLayouts = require('express-ejs-layouts');
+const blogRoutes = require('./routes/blogRoutes');
+
+
+const Blog = require('./models/Blog');
+
 
 const app = express();
 
@@ -52,52 +56,16 @@ app.get('/add-blog',async (req,res) => {
     res.send('blog saved');
 });
 
-app.get('/blogs/:id',async (req,res) => {
-    let id = req.params.id;
-    let blog = await Blog.findById(id);//how to get one blog with id
-    res.render('blogs/show', {
-        blog,
-        title : "Blog Detail"
-    })
-});
+
 // app.use((req,res,next) => {
 //     console.log(`${req.method} ${req.originalUrl} --`);
 //     next();
 // })
 
 app.get('/',async (req,res) => {
+    res.redirect('/blogs');
 
-
-    // let blogs = [
-    //     { title : 'Blog title 1', intro : 'this is blog intro 1'},
-    //     { title : 'Blog title 2', intro : 'this is blog intro 2'},
-    //     { title : 'Blog title 3', intro : 'this is blog intro 3'},
-
-    // ];
-
-    let blogs = await  Blog.find().sort({createdAt : -1});//order descending
-    console.log(blogs);
-
-    res.render('home',{
-        blogs,
-        title : "Home"
-    })
 });
-//data pass for backends
-app.post('/blogs',async (req,res) => {
-    let {title,intro,body} = req.body;
-    let blog = new Blog({
-        title,
-        intro,
-        body
-    });
-
-    await blog.save();
-    res.redirect('/');
-});
-
-
-
 
 app.get('/about',(req,res) => {
     res.render('about',{
@@ -111,11 +79,7 @@ app.get('/contact',(req,res) => {
     });
 });
 
-app.get('/blogs/create',(req,res) => {
-    res.render('blogs/create',{
-        title : 'Blog Create'
-    });
-});
+app.use('/blogs',blogRoutes);
 
 app.use((req,res) => {
     res.status(404).render('404',{
